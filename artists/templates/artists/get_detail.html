@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    has_perm = {{ has_perm }}
+
+    <h1>{{ artist.name }}</h1>
+    id = {{ artist.id }}
+
+    <a href="{% url 'artists_form_edit' artist.id %}">Edit</a>
+    <form action="{% url 'artists_delete' artist.id %}" method="post">
+        <input type="submit" value="Delete">
+        {% csrf_token %}
+    </form>
+
+
+    <!--
+    <a href="{% url 'artists_form_new' %}">Add a new artist</a>
+    -->
+
+
+    <p>Add a new artist:</p>
+    {% include "artists/new.html" %}
+
+{% endblock %}
+
+
+

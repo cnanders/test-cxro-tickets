@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <p></p><a href="{% url 'locations.views.new' %}">Create a new location</a></p>
+
+    {% load recurse %}
+
+    {% recurse model.location_set.all with model_set as model %}
+    <ul>
+        {% loop %}
+        <li>
+            {{ model.name }}
+            <a href="{% url 'locations.views.new' model.id %}">Add child</a>
+            <a href="{% url 'locations.views.edit' model.id %}">Edit</a>
+            <form action="{% url 'locations.views.delete' model.id %}" method="post">
+                <input type="submit" value="Delete">
+                {% csrf_token %}
+            </form>
+
+            {% child %}
+        </li>
+        {% endloop %}
+    </ul>
+    {% endrecurse %}
+
+
+
+{% endblock %}
+
+
+

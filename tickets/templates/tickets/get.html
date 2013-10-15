@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h4><a href="{% url 'tickets_new' %}">Create a new ticket</a></h4>
+
+    <table>
+        <tr>
+            <th>Category</th>
+            <th>Name (id)</th>
+            <th>Comments</th>
+            <th>Date</th>
+            <th>Location</th>
+        </tr>
+
+        {% for ticket in tickets %}
+        <tr>
+            <td>{{ ticket.category.name }}</td>
+            <td>{{ ticket.name }} ({{ ticket.id }})</td>
+            <td>
+                {% for comment in ticket.comment_set.all %}
+                {{ comment.user.username }}
+                {{ comment.date }}
+                <br>
+                {{ comment.content }}
+                <hr>
+                {% endfor %}
+            </td>
+            <td>{{ ticket.date }}</td>
+            <td>{{ ticket.location.name }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
+
+
+

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+    <p>
+        What should I do when the text reaches the end of the line?  Will it
+        wrap?  i don't really know what is expected of me when I wrap text
+        this much it can be annoying!  What should I do when the text reaches the end of the line?  Will it
+        wrap?  i don't really know what is expected of me when I wrap text
+        this much it can be annoying!
+    </p>
+
+    <p>
+        What should I do when the text reaches the end of the line?  Will it
+        wrap?  i don't really know what is expected of me when I wrap text
+        this much it can be annoying!
+    </p>
+
+    {% if perms.artists.change %}
+    User has perms.artists.change
+    {% endif %}
+
+    {% if perms.artists.change_artist %}
+    User has perms.artists.change_artist
+    {% endif %}
+
+    {% if perms.artists.change_artist_own %}
+    User has perms.artists.change_artist_own
+    {% endif %}
+
+    <ul>
+        {% for artist in artists %}
+            <li>
+                {{ artist.id }} {{ artist.name }}
+
+
+                {% if perms.artists.change_artist or perms.artists.change_artist_own and artist.user == user %}
+                <a href="{% url 'artists_edit' artist.id %}">Edit</a>
+                {% endif %}
+                <a href="{% url 'artists_get_detail' artist.id %}">Detail</a>
+
+                {%  for album in artist.album_set.all %}
+                    <br> {{ album.id }} {{ album.name }}
+                {% endfor %}
+
+                <br>
+                <a href="{% url 'albums_new' artist.id %}">Add album</a>
+                <form action="{% url 'artists_delete' artist.id %}" method="post">
+                    <input type="submit" value="Delete">
+                    {% csrf_token %}
+                </form>
+                <!-- <a href="{% url 'artists_delete' artist.id %}">Delete</a>-->
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!--
+    <a href="{% url 'artists_new' %}">Add a new artist</a>
+    -->
+
+
+    <p>Add a new artist:</p>
+    {% include "artists/new.html" %}
+
+{% endblock %}
+
+
+

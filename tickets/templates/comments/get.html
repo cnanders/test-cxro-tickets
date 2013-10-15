@@ -1,0 +1,8 @@
+{% block content %}
+{% for comment in ticket.comment_set.all %}
+<p>
+    {{ comment.user }} {{ comment.date }}<br>
+    {{ comment.content }}
+</p>
+{% endfor %}
+{% endblock %}

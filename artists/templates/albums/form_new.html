@@ -1,0 +1,24 @@
+{# form:        ArtistForm #}
+{# artist:      Artist #}
+
+
+{% block content %}
+
+    Add an album by {{ artist.name }}
+	{% if form.errors %}
+		<p style="color: red;">
+			Please correct the error{{ form.errors|pluralize }} below.
+		</p>
+	{% endif %}
+
+
+    <form action="{% url 'albums_post' artist.id %}" method="post">
+		<table>
+			{{ form.as_table }}
+		</table>
+		{% csrf_token %}
+		<input type="submit" value="Submit">
+	</form>
+
+
+{% endblock %}
